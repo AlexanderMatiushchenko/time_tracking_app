@@ -12,7 +12,7 @@ const AddTimeEntry = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (category && hours && date) {
-      dispatch(addTimeEntry({ id: uuidv4(), category, hours: Number(hours), date }));
+      dispatch(addTimeEntry({ id: uuidv4(), category, hours, date }));
       setCategory('');
       setHours('');
       setDate('');
@@ -33,7 +33,7 @@ const AddTimeEntry = () => {
       </div>
       <div>
         <label>Time: </label>
-        <input type="number" value={hours} onChange={(e) => setHours(e.target.value)} />
+        <input type="time" value={hours} onChange={(e) => setHours(e.target.value)} />
       </div>
       <div>
         <label>Date: </label>

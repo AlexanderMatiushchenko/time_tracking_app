@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import AddTimeEntry from './components/AddTimeEntry/index';
 import TimeEntryList from './components/TimeEntryList/index';
+import WeeklyTimeChart from './components/WeeklyTimeChart';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         
        <AddTimeEntry />
        <TimeEntryList />
+       <WeeklyTimeChart />
       </header>
     </div>
   );
