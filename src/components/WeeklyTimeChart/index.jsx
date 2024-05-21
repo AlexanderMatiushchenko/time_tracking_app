@@ -2,30 +2,33 @@ import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { useSelector } from 'react-redux';
 
-
-const aggregateDataByWeek = (timeEntries) => {
+const aggregateDataByCategory = (timeEntries) => {
   const aggregatedData = {};
 
   timeEntries.forEach((entry) => {
-    const date = new Date(entry.date);
-    const week = `${date.getFullYear()}-W${Math.ceil(date.getDate() / 7)}`;
+    const category = entry.category;
     const hours = parseInt(entry.hours, 10);
 
-    if (!aggregatedData[week]) {
-      aggregatedData[week] = 0;
+    if (!aggregatedData[category]) {
+      aggregatedData[category] = 0;
     }
 
-    aggregatedData[week] += hours;
+    aggregatedData[category] += hours;
   });
 
-  return Object.entries(aggregatedData).map(([week, hours]) => ({ name: week, value: hours }));
+  return Object.entries(aggregatedData).map(([category, hours]) => ({ name: category, value: hours }));
 };
 
-const WeeklyTimeChart = () => {
+const CategoryTimeChart = () => {
   const timeEntries = useSelector((state) => state.timeTracking.timeEntries);
-  const data = aggregateDataByWeek(timeEntries);
+  const data = aggregateDataByCategory(timeEntries);
 
-  const COLORS = ['#008000', '#0000FF', '#FFBB28', '#FFA500'];
+  const COLORS = {
+    'Learning': '#0088FE',
+    'Work': '#00C49F',
+    'Private': '#FFBB28',
+    
+  };
 
   return (
     <PieChart width={400} height={400}>
@@ -39,8 +42,8 @@ const WeeklyTimeChart = () => {
         fill="#8884d8"
         dataKey="value"
       >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        {data.map((entry) => (
+          <Cell key={`cell-${entry.name}`} fill={COLORS[entry.name]} />
         ))}
       </Pie>
       <Tooltip />
@@ -49,4 +52,4 @@ const WeeklyTimeChart = () => {
   );
 };
 
-export default WeeklyTimeChart;
+export default CategoryTimeChart;
